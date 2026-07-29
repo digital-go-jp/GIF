@@ -1,0 +1,47 @@
+name: Package Release Archive
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to package (e.g. 2.3)"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('v{0}', inputs.version) || github.ref }}
+
+      - name: Resolve version and tag
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ inputs.version }}" >> "$GITHUB_OUTPUT"
+            echo "tag=v${{ inputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+            echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create zip archive
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          git archive --format=zip --prefix="GIF-${TAG}/" -o "GIF-${TAG}.zip" \
+            HEAD -- . ':(exclude).github'
+
+      - name: Upload zip as artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: GIF-${{ steps.version.outputs.tag }}
+          path: GIF-${{ steps.version.outputs.tag }}.zip
+          retention-days: 10

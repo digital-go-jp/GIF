@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+{meta_seo}
+<style>
+/* ========================================
+   デジタル庁デザインシステム対応版
+   ======================================== */
+
+/* === デザイントークン === */
+:root {{
+  /* --- デジタル庁ブルーパレット --- */
+  --color-blue-50:   #E8F1FE;
+  --color-blue-100:  #D9E6FF;
+  --color-blue-200:  #C5D7FB;
+  --color-blue-300:  #9DB7F9;
+  --color-blue-400:  #7096F8;
+  --color-blue-500:  #4979F5;
+  --color-blue-600:  #3460FB;
+  --color-blue-700:  #264AF4;
+  --color-blue-800:  #0031D8;
+  --color-blue-900:  #0017C1;
+  --color-blue-1000: #00118F;
+  --color-blue-1200: #000060;
+
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #6b7280;
+  --color-text-on-inverse: #ffffff;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f3f4f6;
+  --color-background-tertiary: var(--color-blue-50);
+  --color-background-inverse: var(--color-blue-1000);
+  --color-border-default: var(--color-blue-200);
+  --color-border-strong: var(--color-blue-400);
+  --color-link-default: var(--color-blue-500);
+  --color-link-hover: var(--color-blue-800);
+  --color-link-visited: var(--color-blue-900);
+  --color-link-on-inverse: var(--color-blue-200);
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+  --line-height-tight: 1.4;
+  --line-height-normal: 1.7;
+  --line-height-relaxed: 1.8;
+}}
+
+/* === リセット === */
+* {{
+  box-sizing: border-box;
+}}
+
+/* === ベーススタイル === */
+body {{
+  font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: var(--color-text-primary);
+  background: var(--color-background-primary);
+  line-height: var(--line-height-normal);
+  font-size: var(--font-size-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}}
+
+/* === ヘッダーバナー === */
+header.repo-banner {{
+  background: var(--color-background-inverse);
+  color: var(--color-text-on-inverse);
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}}
+
+header.repo-banner a {{
+  color: var(--color-link-on-inverse);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}}
+
+header.repo-banner a:hover {{
+  text-decoration: underline;
+  opacity: 0.9;
+}}
+
+.banner-home {{
+  color: var(--color-text-on-inverse);
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+  letter-spacing: 0.03em;
+}}
+
+.banner-right {{
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}}
+
+/* === レイアウト === */
+main.centered {{
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+}}
+
+.page-layout {{
+  display: flex;
+  align-items: flex-start;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+  gap: var(--spacing-xl);
+}}
+
+@media (max-width: 768px) {{
+  .page-layout {{
+    flex-direction: column;
+    padding: var(--spacing-md);
+  }}
+}}
+
+/* === サイドバー === */
+.sidebar {{
+  width: 240px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--color-border-default);
+  padding-right: var(--spacing-lg);
+  position: sticky;
+  top: var(--spacing-md);
+  max-height: calc(100vh - var(--spacing-2xl) * 2);
+  overflow-y: auto;
+  font-size: var(--font-size-sm);
+}}
+
+@media (max-width: 768px) {{
+  .sidebar {{
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border-default);
+    padding-right: 0;
+    padding-bottom: var(--spacing-lg);
+    position: static;
+    max-height: none;
+  }}
+}}
+
+.sidebar-version {{
+  display: block;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-lg);
+  text-decoration: none;
+}}
+
+.sidebar-version:hover {{
+  color: var(--color-link-default);
+}}
+
+.sidebar-version[aria-current="page"] {{
+  color: var(--color-link-default);
+}}
+
+/* === ツリーリスト === */
+.tree-list,
+.tree-list ul {{
+  list-style: none;
+  padding-left: var(--spacing-md);
+  margin: 0;
+}}
+
+.tree-list > li {{
+  padding-left: 0;
+}}
+
+.tree-list details > summary {{
+  cursor: pointer;
+  list-style: none;
+  padding: var(--spacing-xs) 0;
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-sm);
+  user-select: none;
+}}
+
+.tree-list details > summary::-webkit-details-marker {{
+  display: none;
+}}
+
+.tree-list details > summary::before {{
+  content: "▶";
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}}
+
+.tree-list details[open] > summary::before {{
+  transform: rotate(90deg);
+}}
+
+.tree-list a {{
+  color: var(--color-text-primary);
+  text-decoration: none;
+  display: block;
+  padding: var(--spacing-xs) 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}}
+
+.tree-list a:hover {{
+  color: var(--color-link-default);
+  text-decoration: underline;
+}}
+
+.tree-list a[aria-current="page"] {{
+  color: var(--color-link-default);
+  font-weight: 700;
+}}
+
+.tree-list li.leaf > a {{
+  padding-left: var(--spacing-md);
+}}
+
+/* === メインコンテンツ === */
+.page-layout main {{
+  flex: 1;
+  min-width: 0;
+}}
+
+/* === タイポグラフィ === */
+h1, h2, h3, h4, h5, h6 {{
+  font-weight: 700;
+  line-height: var(--line-height-tight);
+  margin-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text-primary);
+}}
+
+h1 {{
+  font-size: var(--font-size-3xl);
+  border-bottom: 2px solid var(--color-border-default);
+  padding-bottom: var(--spacing-sm);
+}}
+
+h2 {{
+  font-size: var(--font-size-2xl);
+  border-bottom: 2px solid var(--color-border-default);
+  padding-bottom: var(--spacing-sm);
+}}
+
+h3 {{
+  font-size: var(--font-size-xl);
+  border-bottom: 1px solid var(--color-border-default);
+  padding-bottom: var(--spacing-sm);
+}}
+
+h4 {{
+  font-size: var(--font-size-lg);
+}}
+
+p {{
+  margin: var(--spacing-md) 0;
+  line-height: var(--line-height-normal);
+}}
+
+/* === リンク === */
+a {{
+  color: var(--color-link-default);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}}
+
+a:hover {{
+  color: var(--color-link-hover);
+  text-decoration: underline;
+}}
+
+a:visited {{
+  color: var(--color-link-visited);
+}}
+
+a:focus {{
+  outline: 2px solid var(--color-link-default);
+  outline-offset: 2px;
+}}
+
+/* === テーブル === */
+table {{
+  border-collapse: collapse;
+  width: 100%;
+  margin: var(--spacing-lg) 0;
+  border: 1px solid var(--color-border-default);
+  font-size: var(--font-size-sm);
+  background: var(--color-background-primary);
+}}
+
+thead {{
+  background: var(--color-background-secondary);
+}}
+
+th,
+td {{
+  text-align: left;
+  padding: 12px var(--spacing-md);
+  border: 1px solid var(--color-border-default);
+}}
+
+th {{
+  font-weight: 700;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}}
+
+tbody tr {{
+  transition: background-color 0.15s ease;
+}}
+
+tbody tr:hover {{
+  background: var(--color-background-tertiary);
+}}
+
+/* === テーブル行タイプ別スタイル === */
+.row-parent td {{
+  font-weight: 600;
+  background: var(--color-background-secondary);
+}}
+
+.row-parent:hover td {{
+  background: var(--color-border-default);
+}}
+
+.row-parent a::before {{
+  content: "↩️";
+  margin-right: var(--spacing-sm);
+  font-size: var(--font-size-base);
+}}
+
+.row-dir a::before {{
+  content: "📁";
+  margin-right: var(--spacing-sm);
+  font-size: var(--font-size-base);
+}}
+
+.row-file a::before {{
+  content: "📄";
+  margin-right: var(--spacing-sm);
+  font-size: var(--font-size-base);
+}}
+
+/* レスポンシブテーブル */
+@media (max-width: 640px) {{
+  table {{
+    font-size: 12px;
+  }}
+  
+  th,
+  td {{
+    padding: var(--spacing-sm);
+  }}
+  
+  .row-parent a::before,
+  .row-dir a::before,
+  .row-file a::before {{
+    font-size: var(--font-size-sm);
+  }}
+}}
+
+/* === ブレッドクラム === */
+nav.breadcrumb {{
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-sm) 0;
+}}
+
+nav.breadcrumb a {{
+  color: var(--color-link-default);
+}}
+
+nav.breadcrumb a:hover {{
+  text-decoration: underline;
+}}
+
+/* === ユーティリティ === */
+.visually-hidden {{
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}}
+
+/* === スクロールバーのスタイリング === */
+.sidebar::-webkit-scrollbar {{
+  width: 8px;
+}}
+
+.sidebar::-webkit-scrollbar-track {{
+  background: var(--color-background-secondary);
+}}
+
+.sidebar::-webkit-scrollbar-thumb {{
+  background: var(--color-border-default);
+  border-radius: 4px;
+}}
+
+.sidebar::-webkit-scrollbar-thumb:hover {{
+  background: var(--color-border-strong);
+}}
+
+/* === 旧バージョン通知バナー === */
+.older-version-banner {{
+  background: #fef3c7;
+  border-bottom: 2px solid #d97706;
+  color: #78350f;
+  padding: var(--spacing-sm) var(--spacing-xl);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-align: center;
+}}
+
+/* === フッター === */
+footer.site-footer {{
+  background: var(--color-background-inverse);
+  color: var(--color-text-on-inverse);
+  text-align: center;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-2xl);
+}}
+
+footer.site-footer a {{
+  color: var(--color-link-on-inverse);
+}}
+
+footer.site-footer a:hover {{
+  text-decoration: underline;
+  opacity: 0.9;
+}}
+
+footer.site-footer a:visited {{
+  color: var(--color-link-on-inverse);
+}}
+
+/* === プリント用スタイル === */
+@media print {{
+  header.repo-banner,
+  .older-version-banner,
+  .sidebar,
+  footer.site-footer {{
+    display: none;
+  }}
+
+  .page-layout {{
+    display: block;
+    max-width: 100%;
+  }}
+
+  a {{
+    color: var(--color-text-primary);
+    text-decoration: underline;
+  }}
+}}
+
+
+/* === プレビューリンクバッジ（プレビューHTML付きファイル共通） === */
+.file-preview-link {{
+  display: inline-block;
+  margin-left: var(--spacing-sm);
+  padding: 2px var(--spacing-sm);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-blue-800);
+  border: 1px solid var(--color-blue-300);
+  border-radius: 4px;
+  text-decoration: none;
+  vertical-align: middle;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}}
+
+.file-preview-link:hover {{
+  background-color: var(--color-blue-50);
+  color: var(--color-link-hover);
+  text-decoration: none;
+}}
+
+/* === 拡張子別ファイルアイコン（data-ext 属性で上書き） === */
+.row-file[data-ext=".pdf"] a::before    {{ content: "📋"; }}
+.row-file[data-ext=".docx"] a::before,
+.row-file[data-ext=".doc"] a::before    {{ content: "📝"; }}
+.row-file[data-ext=".xlsx"] a::before,
+.row-file[data-ext=".xls"] a::before,
+.row-file[data-ext=".csv"] a::before    {{ content: "📊"; }}
+.row-file[data-ext=".pptx"] a::before,
+.row-file[data-ext=".ppt"] a::before    {{ content: "📽️"; }}
+.row-file[data-ext=".zip"] a::before    {{ content: "🗜️"; }}
+.row-file[data-ext=".md"] a::before     {{ content: "📑"; }}
+.row-file[data-ext=".mmd"] a::before    {{ content: "📊"; }}
+.row-file[data-ext=".svg"] a::before    {{ content: "🖼️"; }}
+
+
+/* === Mermaid 図 === */
+.mermaid {{
+  margin: var(--spacing-lg) 0;
+  text-align: center;
+  position: relative;
+}}
+
+.mermaid svg {{
+  font-family: "Noto Sans JP", sans-serif;
+  display: block;
+  margin: 0 auto;
+  /* ✅ 固定高さはJS側で設定するためここでは指定しない */
+  cursor: grab;
+}}
+
+.mermaid svg:active {{
+  cursor: grabbing;
+}}
+
+/* ✅ ズームコントロール: 右上固定 */
+.mermaid-zoom-controls {{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 100;
+}}
+
+.zoom-btn {{
+  width: 36px;
+  height: 36px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}}
+
+.zoom-btn:hover {{
+  background: #f0f0f0;
+  border-color: #264AF4;
+  color: #264AF4;
+}}
+
+/* ✅ ミニマップ: 左下固定（ズームボタンと重ならないよう左側に） */
+.mermaid-minimap {{
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  width: 160px;
+  height: 110px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  overflow: hidden;
+  z-index: 100;
+  opacity: 0.9;
+}}
+
+.minimap-label {{
+  font-size: 10px;
+  color: #666;
+  padding: 2px 6px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #eee;
+  height: 20px;
+  line-height: 16px;
+  font-family: "Noto Sans JP", sans-serif;
+}}
+
+/* ✅ ミニマップのビューポート枠 */
+.minimap-viewport {{
+  position: absolute;
+  border: 2px solid #264AF4;
+  background: rgba(38, 74, 244, 0.1);
+  pointer-events: none;
+  box-sizing: border-box;
+}}
+
+/* ✅ ミニマップSVGラッパー */
+.minimap-svg-wrapper {{
+  width: 100%;
+  height: calc(100% - 20px);
+  overflow: hidden;
+  position: relative;
+}}
+
+.minimap-svg-wrapper svg {{
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none;
+}}
+
+@media print {{
+  .mermaid-zoom-controls,
+  .mermaid-minimap {{
+    display: none;
+  }}
+  .mermaid svg {{
+    max-width: 100%;
+    height: auto !important;
+  }}
+}}
+</style>
+</head>
+<body>
+{older_banner}
+{body}
+<footer class="site-footer">
+  <p>&copy; Digital Agency, Government of Japan</p>
+  <p>
+    <a href="https://www.digital.go.jp/privacy-policy">プライバシーポリシー</a>
+    |
+    <a href="https://www.digital.go.jp/contact">お問い合わせ</a>
+  </p>
+</footer>
+<script src="https://bumbu.me/svg-pan-zoom/dist/svg-pan-zoom.min.js"></script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+  mermaid.initialize({{
+    startOnLoad: false,
+    theme: 'default',
+    themeVariables: {{
+      primaryColor: '#264AF4',
+      primaryTextColor: '#1a1a1a',
+      primaryBorderColor: '#9DB7F9',
+      lineColor: '#4979F5',
+      fontFamily: '"Noto Sans JP", sans-serif',
+    }},
+  }});
+
+async function drawDiagram() {{
+  const elements = document.querySelectorAll('.mermaid');
+
+  for (const [index, element] of elements.entries()) {{
+    const graphDefinition = element.textContent.trim();
+    const svgId = `mermaid-svg-${{index}}`;
+
+    // ✅ render() の生SVG文字列を保存
+    const {{ svg: rawSvg }} = await mermaid.render(svgId, graphDefinition);
+
+    element.innerHTML = rawSvg.replace(
+      /max-width:\s*[\d.]+px;/i,
+      ''
+    );
+
+    const svgElement = element.querySelector(`#${{svgId}}`);
+    if (!svgElement) continue;
+
+    const viewBox = svgElement.getAttribute('viewBox');
+    if (!viewBox) continue;
+
+    const [, , vbWidth, vbHeight] = viewBox.split(' ').map(Number);
+
+    svgElement.style.width  = '100%';
+    svgElement.style.height = '75vh';
+    svgElement.removeAttribute('width');
+    svgElement.removeAttribute('height');
+
+    let doPan = false;
+    let mousepos;
+    let panZoom;
+
+    const eventsHandler = {{
+      haltEventListeners: ['mousedown', 'mousemove', 'mouseup'],
+      mouseDownHandler: function (ev) {{
+        if (ev.target.className?.baseVal !== undefined) {{
+          doPan = true;
+          mousepos = {{ x: ev.clientX, y: ev.clientY }};
+        }}
+      }},
+      mouseMoveHandler: function (ev) {{
+        if (doPan) {{
+          panZoom.panBy({{ x: ev.clientX - mousepos.x, y: ev.clientY - mousepos.y }});
+          mousepos = {{ x: ev.clientX, y: ev.clientY }};
+          window.getSelection().removeAllRanges();
+        }}
+      }},
+      mouseUpHandler: function (ev) {{ doPan = false; }},
+      init: function (options) {{
+        options.svgElement.addEventListener('mousedown', this.mouseDownHandler, false);
+        options.svgElement.addEventListener('mousemove', this.mouseMoveHandler, false);
+        options.svgElement.addEventListener('mouseup', this.mouseUpHandler, false);
+      }},
+      destroy: function (options) {{
+        options.svgElement.removeEventListener('mousedown', this.mouseDownHandler, false);
+        options.svgElement.removeEventListener('mousemove', this.mouseMoveHandler, false);
+        options.svgElement.removeEventListener('mouseup', this.mouseUpHandler, false);
+      }},
+    }};
+
+    panZoom = svgPanZoom(svgElement, {{
+      zoomEnabled:         true,
+      controlIconsEnabled: false,
+      fit:                 true,
+      center:              true,
+      panEnabled:          false,
+      minZoom:             0.05,
+      maxZoom:             10,
+      customEventsHandler: eventsHandler,
+    }});
+
+    const fitZoomLevel = panZoom.getZoom();
+    const fitPanLevel  = panZoom.getPan();
+
+    // ✅ fit+center時のpanを基準値として記録
+    // これがviewBox(0,0)に対応するコンテナ上の位置
+    const basePanX = fitPanLevel.x;
+    const basePanY = fitPanLevel.y;
+
+    console.log('basePan:', basePanX, basePanY);
+    console.log('fitZoom:', fitZoomLevel);
+    console.log('sizes:', panZoom.getSizes());
+
+    // ✅ 独自コントロールボタン
+    const controls = document.createElement('div');
+    controls.className = 'mermaid-zoom-controls';
+    controls.innerHTML = `
+      <button class="zoom-btn zoom-in"    title="拡大">＋</button>
+      <button class="zoom-btn zoom-reset" title="全体表示">⊙</button>
+      <button class="zoom-btn zoom-out"   title="縮小">－</button>
+    `;
+    element.style.position = 'relative';
+    element.appendChild(controls);
+
+    const btnIn    = controls.querySelector('.zoom-in');
+    const btnReset = controls.querySelector('.zoom-reset');
+    const btnOut   = controls.querySelector('.zoom-out');
+
+    btnIn.addEventListener('click',    () => {{ panZoom.zoomIn();  updateMinimap(); }});
+    btnOut.addEventListener('click',   () => {{ panZoom.zoomOut(); updateMinimap(); }});
+    btnReset.addEventListener('click', () => {{
+      panZoom.zoom(fitZoomLevel);
+      panZoom.pan(fitPanLevel);
+      updateMinimap();
+    }});
+
+    // ✅ ミニマップ生成
+    const minimap = document.createElement('div');
+    minimap.className = 'mermaid-minimap';
+    minimap.innerHTML = `<div class="minimap-label">全体図</div>`;
+    element.appendChild(minimap);
+
+    // ✅ rawSvg をそのままミニマップに埋め込む
+    // svg-pan-zoom が触る前の純粋なSVGなので正しく表示される
+    const minimapSvgWrapper = document.createElement('div');
+    minimapSvgWrapper.className = 'minimap-svg-wrapper';
+    minimapSvgWrapper.innerHTML = rawSvg;
+
+    const minimapSvg = minimapSvgWrapper.querySelector('svg');
+    if (minimapSvg) {{
+      // ✅ ミニマップ用SVGの設定
+      minimapSvg.removeAttribute('id');         // ID重複を避ける
+      minimapSvg.removeAttribute('width');
+      minimapSvg.removeAttribute('height');
+      minimapSvg.style.width        = '100%';
+      minimapSvg.style.height       = '100%';
+      minimapSvg.style.pointerEvents = 'none';
+      minimapSvg.style.display      = 'block';
+      // ✅ viewBox はそのまま保持 → 図全体が正しく表示される
+    }}
+    minimap.appendChild(minimapSvgWrapper);
+
+    // ビューポート枠
+    const viewport = document.createElement('div');
+    viewport.className = 'minimap-viewport';
+    minimap.appendChild(viewport);
+
+    function updateMinimap() {{
+      const pan      = panZoom.getPan();
+      const sizes    = panZoom.getSizes();
+      const realZoom = sizes.realZoom;
+
+      const cw = svgElement.clientWidth;
+      const ch = svgElement.clientHeight;
+      const mw = minimap.clientWidth;
+      const mh = minimap.clientHeight - 20; // ラベル分
+
+      // ✅ ミニマップのスケール（viewBox全体をミニマップに収める倍率）
+      const scaleX = mw / vbWidth;
+      const scaleY = mh / vbHeight;
+      const scale  = Math.min(scaleX, scaleY);
+
+      // ✅ fit+center時のpanを基準(0,0)として
+      // 現在のpanとの差分をviewBox座標系に変換
+      const deltaPanX = pan.x - basePanX;
+      const deltaPanY = pan.y - basePanY;
+
+      // ✅ viewBox座標系でのビューポート左上位置
+      // fit状態(delta=0)のとき vpLeft/Top = 0 になる
+      const vpLeftInVB = -deltaPanX / realZoom;
+      const vpTopInVB  = -deltaPanY / realZoom;
+
+      // ✅ ビューポートのviewBox座標系でのサイズ
+      const vpWidthInVB  = cw / realZoom;
+      const vpHeightInVB = ch / realZoom;
+
+      // ✅ ミニマップ上のピクセル位置
+      const mmVpW = vpWidthInVB  * scale;
+      const mmVpH = vpHeightInVB * scale;
+      const mmVpX = vpLeftInVB   * scale;
+      const mmVpY = vpTopInVB    * scale;
+
+      // ✅ ミニマップ内でSVGが中央配置される場合のオフセット
+      const svgDisplayWidth  = vbWidth  * scale;
+      const svgDisplayHeight = vbHeight * scale;
+      const svgOffsetX = (mw - svgDisplayWidth)  / 2;
+      const svgOffsetY = (mh - svgDisplayHeight) / 2;
+
+      // ✅ fit状態のビューポート枠の左上位置
+      // fit時はSVG全体が見えているので
+      // ビューポート枠 = SVG表示領域全体 と一致するはず
+      const fitVpW = vbWidth  * scale;
+      const fitVpH = vbHeight * scale;
+      const fitVpX = svgOffsetX;
+      const fitVpY = svgOffsetY;
+
+      // ✅ 現在位置 = fit時の位置 + delta
+      const finalX = fitVpX + mmVpX;
+      const finalY = fitVpY + mmVpY;
+
+      viewport.style.width  = `${{Math.min(mmVpW, mw)}}px`;
+      viewport.style.height = `${{Math.min(mmVpH, mh)}}px`;
+      viewport.style.left   = `${{finalX}}px`;
+      viewport.style.top    = `${{finalY + 20}}px`; // ラベル20px分
+    }}
+
+    svgElement.addEventListener('mousemove', () => {{
+      if (doPan) updateMinimap();
+    }});
+
+    setTimeout(updateMinimap, 200);
+  }}
+}}
+
+await drawDiagram();
+</script>
+</body>
+</html>

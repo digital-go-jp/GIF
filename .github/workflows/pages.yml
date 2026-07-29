@@ -1,0 +1,78 @@
+name: Build and Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_pages:
+        description: "Publish to GitHub Pages after build"
+        type: boolean
+        default: false
+        required: true
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Build pages tree from git tags
+        run: |
+          cp -r .github/scripts/pages pages
+          for tag in $(git tag -l 'v*' | sort -V); do
+            version="${tag#v}"
+            major="${version%%.*}"
+            if [ "$major" -lt 2 ]; then continue; fi
+            echo "Extracting $tag -> pages/$version/"
+            mkdir -p "pages/$version"
+            git archive "$tag" -- . ':(exclude).github' | tar -x -C "pages/$version"
+          done
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Install Python dependencies
+        run: pip install markdown
+
+      - name: Generate HTML index files
+        run: python .github/scripts/generate_index.py
+
+      - name: Upload site artifact
+        if: inputs.publish_pages == false
+        uses: actions/upload-artifact@v7
+        with:
+          name: gif-site-${{ github.run_number }}
+          path: pages/
+          retention-days: 1
+
+      - name: Upload Pages artifact
+        if: inputs.publish_pages  
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: pages
+
+  deploy:
+    needs: build
+    if: inputs.publish_pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
