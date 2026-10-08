@@ -26,7 +26,7 @@ GIF_FULL_NAME="政府相互運用性フレームワーク"
 
 # サイト設定
 SITE_BASE_URL = "https://gif.digital.go.jp/"
-SITE_NAME = "デジタル庁 政府相互運用性フレームワーク（GIF)"
+SITE_NAME = "政府相互運用性フレームワーク（GIF）｜デジタル庁"
 SITE_AUTHOR = "デジタル庁"
 SITE_DEFAULT_DESCRIPTION = "政府情報システムにおける相互運用性を確保するための技術標準"
 SITE_DEFAULT_KEYWORDS = ["政府相互運用性フレームワーク", "GIF", "デジタル庁", "技術標準"]
@@ -72,7 +72,7 @@ FILE_LIST_HTML = '''<table role="table" aria-label="ファイル一覧">
 BREADCRUMB_HTML = '<nav class="breadcrumb" aria-label="パンくずリスト">{content}</nav>'
 
 # インデックスに表示しないファイル群。
-SKIP_NAMES = {INDEX_HTML, README_MD, "favicon.ico", "index.md", "sitemap.xml"}
+SKIP_NAMES = {INDEX_HTML, README_MD, "favicon.ico", "index.md", "sitemap.xml", "ogp.png"}
 
 
 def build_meta_seo(
@@ -98,7 +98,7 @@ def build_meta_seo(
     """
     kw = keywords if keywords is not None else SITE_DEFAULT_KEYWORDS
     keywords_str = ",".join(kw)
-    full_title = f"{title} | {SITE_NAME}"
+    full_title = f"{title} ｜{SITE_AUTHOR}"
 
     def esc(s: str) -> str:
         """
@@ -117,10 +117,11 @@ def build_meta_seo(
         f'  <link rel="sitemap" type="application/xml" href="{SITE_BASE_URL}/sitemap.xml">',
         f'  <link rel="canonical" href="{esc(page_url)}">',
         # --- OGP ---
-        f'  <meta property="og:title" content="{esc(full_title)}">',
+        f'  <meta property="og:title" content="{esc(title)}">',
         f'  <meta property="og:description" content="{esc(description)}">',
         f'  <meta property="og:type" content="{esc(og_type)}">',
         f'  <meta property="og:url" content="{esc(page_url)}">',
+        f'  <meta property="og:image" content="{SITE_BASE_URL}/ogp.png"',
         f'  <meta property="og:site_name" content="{esc(SITE_NAME)}">',
         # --- タイトル ---
         f'  <title>{esc(full_title)}</title>',
@@ -561,7 +562,7 @@ def process_directory(dir_path, releases_root, all_metadata, repo_root=None):
 
     if readme.exists():
         md_text = readme.read_text(encoding="utf-8")
-        html_body = markdown.markdown(md_text, extensions=["tables", "fenced_code"])
+        html_body = markdown.markdown(md_text, extensions=["tables", "fenced_code", "attr_list"])
         if PLACEHOLDER in html_body:
             latest = find_latest_version(all_metadata)
             html_body = html_body.replace(PLACEHOLDER, file_list_html).replace(VERSIONHOLDER, f'最新版はバージョン{latest}です。')

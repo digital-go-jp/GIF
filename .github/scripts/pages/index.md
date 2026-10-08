@@ -13,11 +13,9 @@
 
 ## リリースファイル
 
-Zip圧縮されたアーカイブ形式で[ダウンロード](https://github.com/JDA-DM/GIF/releases)いただけます。
+Zip圧縮されたアーカイブ形式で[ダウンロード](https://github.com/JDA-DM/GIF/releases){: .external-link }いただけます。
 
 ## ライセンス
-
-[![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](https://creativecommons.org/publicdomain/zero/1.0/deed.ja)
 
 このリポジトリのコンテンツは **CC0 1.0 Universal** のもとで公開されています。
 
@@ -33,4 +31,4 @@ Zip圧縮されたアーカイブ形式で[ダウンロード](https://github.co
 | 帰属表示 | 🔓 不要 |
 
 
-詳細: [creativecommons.org/publicdomain/zero/1.0](https://creativecommons.org/publicdomain/zero/1.0/deed.ja)
+[![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](https://creativecommons.org/publicdomain/zero/1.0/deed.ja): [creativecommons.org/publicdomain/zero/1.0](https://creativecommons.org/publicdomain/zero/1.0/deed.ja){: .external-link }

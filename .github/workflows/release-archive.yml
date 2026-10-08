@@ -37,7 +37,9 @@ jobs:
         run: |
           TAG="${{ steps.version.outputs.tag }}"
           git archive --format=zip --prefix="GIF-${TAG}/" -o "GIF-${TAG}.zip" \
-            HEAD -- . ':(exclude).github'
+            HEAD -- . \
+            ':(exclude,glob)**/.*' \
+            ':(exclude,glob)**/.*/**'
 
       - name: Upload zip as artifact
         uses: actions/upload-artifact@v7
