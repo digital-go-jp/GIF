@@ -114,14 +114,14 @@ def build_meta_seo(
         f'  <meta name="keywords" content="{esc(keywords_str)}">',
         f'  <meta name="author" content="{esc(SITE_AUTHOR)}">',
         f'  <meta name="robots" content="index, follow">',
-        f'  <link rel="sitemap" type="application/xml" href="{SITE_BASE_URL}/sitemap.xml">',
+        f'  <link rel="sitemap" type="application/xml" href="{SITE_BASE_URL}sitemap.xml">',
         f'  <link rel="canonical" href="{esc(page_url)}">',
         # --- OGP ---
         f'  <meta property="og:title" content="{esc(title)}">',
         f'  <meta property="og:description" content="{esc(description)}">',
         f'  <meta property="og:type" content="{esc(og_type)}">',
         f'  <meta property="og:url" content="{esc(page_url)}">',
-        f'  <meta property="og:image" content="{SITE_BASE_URL}/ogp.png"',
+        f'  <meta property="og:image" content="{SITE_BASE_URL}ogp.png"',
         f'  <meta property="og:site_name" content="{esc(SITE_NAME)}">',
         # --- タイトル ---
         f'  <title>{esc(full_title)}</title>',
@@ -135,8 +135,8 @@ def _page_url(dir_path: Path, releases_root: Path) -> str:
     # releases_root 自体は SITE_BASE_URL/ に対応
     path_str = "/".join(rel.parts)
     if path_str:
-        return f"{SITE_BASE_URL}/{path_str}/"
-    return f"{SITE_BASE_URL}/"
+        return f"{SITE_BASE_URL}{path_str}/"
+    return f"{SITE_BASE_URL}"
 
 
 def _page_description(title: str, dir_path: Path, releases_root: Path) -> str:
